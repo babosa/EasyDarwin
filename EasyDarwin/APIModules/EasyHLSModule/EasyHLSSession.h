@@ -72,6 +72,7 @@ class EasyHLSSession : public Task
 		EasyAACEncoder_Handle fAAChandle;
 		//Last Audio PTS
 		unsigned long long fLastAudioPTS;
+        unsigned long long fLastVideoPTS;
 
 		QTSS_Error EasyInitAACEncoder(int codec);
 		UInt8 pbAACBuffer[EASY_ACCENCODER_BUFFER_SIZE_LEN];

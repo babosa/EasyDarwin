@@ -82,7 +82,8 @@ EasyHLSSession::EasyHLSSession(StrPtrLen* inSessionID)
 	fNumBytesReceived(0),
 	fLastNumBytesReceived(0),
 	fTimeoutTask(NULL, 60*1000),
-	fLastAudioPTS(0)
+	fLastAudioPTS(0),
+    fLastVideoPTS(0)
 {
     fTimeoutTask.SetTask(this);
     fQueueElem.SetEnclosingObject(this);
@@ -204,7 +205,9 @@ QTSS_Error EasyHLSSession::ProcessData(int _chid, int mediatype, char *pbuf, RTS
 		}
 
 		EasyHLS_VideoMux(fHLSHandle, uiFrameType, (unsigned char*)pbuf, frameinfo->length, llPTS*90, llPTS*90, llPTS*90);
-	}
+	
+        fLastVideoPTS = llPTS;
+    }
 	else if (mediatype == EASY_SDK_AUDIO_FRAME_FLAG)
 	{
 		unsigned long long llPTS = (frameinfo->timestamp_sec%1000000)*1000 + frameinfo->timestamp_usec/1000;	
@@ -218,7 +221,7 @@ QTSS_Error EasyHLSSession::ProcessData(int _chid, int mediatype, char *pbuf, RTS
 				unsigned int iAACBufferLen = 0;
 				if(Easy_AACEncoder_Encode(fAAChandle, (unsigned char*)pbuf,  frameinfo->length, pbAACBuffer, &iAACBufferLen) > 0)
 				{
-					EasyHLS_AudioMux(fHLSHandle, pbAACBuffer, iAACBufferLen, fLastAudioPTS*90, fLastAudioPTS*90);
+					EasyHLS_AudioMux(fHLSHandle, pbAACBuffer, iAACBufferLen, fLastVideoPTS*90, fLastVideoPTS*90);
 					fLastAudioPTS = 0;
 				}
 				
@@ -231,7 +234,7 @@ QTSS_Error EasyHLSSession::ProcessData(int _chid, int mediatype, char *pbuf, RTS
 
 		if (frameinfo->codec == EASY_SDK_AUDIO_CODEC_AAC)
 		{	
-			EasyHLS_AudioMux(fHLSHandle, (unsigned char*)pbuf, frameinfo->length, llPTS*90, llPTS*90);
+			EasyHLS_AudioMux(fHLSHandle, (unsigned char*)pbuf, frameinfo->length, fLastVideoPTS*90, fLastVideoPTS*90);
 		}
 	}
 	else if (mediatype == EASY_SDK_EVENT_FRAME_FLAG)
@@ -350,6 +353,7 @@ QTSS_Error	EasyHLSSession::HLSSessionRelease()
 		Easy_AACEncoder_Release(fAAChandle);
 		fAAChandle=NULL;
 		fLastAudioPTS = 0;
+        fLastVideoPTS = 0;
 	}
 	return QTSS_NoErr;
 }
