@@ -55,7 +55,7 @@ void EasyHLSSession::Initialize(QTSS_ModulePrefsObject inPrefs)
 }
 
 /* RTSPClient获取数据后回调给上层 */
-int Easy_APICALL __RTSPClientCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
+int Easy_APICALL __RTSPClientCallBack( int _chid, void *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	EasyHLSSession* pHLSSession = (EasyHLSSession *)_chPtr;
 
@@ -172,8 +172,8 @@ QTSS_Error EasyHLSSession::EasyInitAACEncoder(int codec)
 		fAAChandle = Easy_AACEncoder_Init( initParam);
 	}
 	return QTSS_NoErr;
-
 }
+
 QTSS_Error EasyHLSSession::ProcessData(int _chid, int mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	if(NULL == fHLSHandle) return QTSS_Unimplemented;
@@ -276,7 +276,7 @@ QTSS_Error	EasyHLSSession::HLSSessionStart(char* rtspUrl, UInt32 inTimeout)
 			unsigned int mediaType = EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;
 
 			EasyRTSP_SetCallback(fRTSPClientHandle, __RTSPClientCallBack);
-			EasyRTSP_OpenStream(fRTSPClientHandle, 0, rtspUrl,RTP_OVER_TCP, mediaType, 0, 0, this, 1000, 0, 0);
+			EasyRTSP_OpenStream(fRTSPClientHandle, 0, rtspUrl,RTP_OVER_TCP, mediaType, 0, 0, this, 1000, 0, 0x01, 0);
 
 			fPlayTime = fLastStatPlayTime = OS::Milliseconds();
 			fNumPacketsReceived = fLastNumPacketsReceived = 0;

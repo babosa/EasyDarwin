@@ -12,7 +12,7 @@
 #include "EasyRelaySession.h"
 
 /* RTSPClient从RTSPClient获取数据后回调给上层 */
-int Easy_APICALL __EasyRTSPClientCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
+int Easy_APICALL __EasyRTSPClientCallBack( int _chid, void *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	EasyRelaySession* pRelaySession = (EasyRelaySession*)_chPtr;
 
@@ -184,7 +184,7 @@ QTSS_Error	EasyRelaySession::RelaySessionStart()
 		unsigned int mediaType =  EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;
 
 		EasyRTSP_SetCallback(fRTSPClientHandle, __EasyRTSPClientCallBack);
-		EasyRTSP_OpenStream(fRTSPClientHandle, 0, fURL, RTP_OVER_TCP, mediaType, 0, 0, this, 1000, 0, 0);
+		EasyRTSP_OpenStream(fRTSPClientHandle, 0, fURL, RTP_OVER_TCP, mediaType, 0, 0, this, 1000,0, 0x01, 0);
 	}
 
 	return QTSS_NoErr;
