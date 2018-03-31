@@ -22,7 +22,8 @@
 #define Easy_API
 #endif
 //#define Easy_API
-#define EASY_PROTOCOL_VERSION                         "1.0"
+#define EASY_PROTOCOL_VERSION							"v1"
+#define EASY_PROTOCOL_VERSION_NUM						"1.0"
 #define EASY_PROTOCOL_STREAM_MAIN						"0"
 #define EASY_PROTOCOL_STREAM_SUB						"1"
 
@@ -58,6 +59,7 @@
 #define EASY_TAG_TERMINAL_TYPE							"TerminalType"
 #define EASY_TAG_APP_TYPE								"AppType"
 #define EASY_TAG_SESSION_ID								"SessionID"
+#define EASY_TAG_L_SESSION_ID							"sessionid"
 #define EASY_TAG_MESSAGE_TYPE							"MessageType"
 #define EASY_TAG_CSEQ									"CSeq"
 #define EASY_TAG_ERROR_NUM								"ErrorNum"
@@ -68,6 +70,7 @@
 #define EASY_TAG_NAME									"Name"
 #define EASY_TAG_L_NAME									"name"
 #define EASY_TAG_PASSWORD								"Password"
+#define EASY_TAG_L_PASSWORD								"password"
 #define EASY_TAG_LAST_LOGIN_TIME						"LastLoginTime"
 #define EASY_TAG_LAST_LOGIN_ADDRESS						"LastLoginAddress"
 #define EASY_TAG_PERMISSION								"Permission"
@@ -88,6 +91,7 @@
 #define EASY_TAG_SNAPSHOT								"Snapshot"
 #define EASY_TAG_DESCRIPTION							"Description"
 #define EASY_TAG_TOKEN									"Token"
+#define EASY_TAG_L_TOKEN								"token"
 #define EASY_TAG_CUSTOM_FIELD							"CustomField"
 #define EASY_TAG_ORDER									"Order"
 #define EASY_TAG_SERVICE_TYPE							"ServiceType"
@@ -95,9 +99,11 @@
 #define EASY_TAG_WAN_IP									"WanIP"
 #define EASY_TAG_LAN_IP									"LanIP"
 #define EASY_TAG_PORT									"Port"
+#define EASY_TAG_L_PORT									"port"
 #define EASY_TAG_LOAD									"Load"
 #define EASY_TAG_USER									"User"
 #define EASY_TAG_USER_NAME								"UserName"
+#define EASY_TAG_L_USER_NAME							"username"
 #define EASY_TAG_PROTOCOL								"Protocol"
 #define EASY_TAG_L_PROTOCOL								"protocol"
 #define EASY_TAG_AUDIO									"Audio"
@@ -106,6 +112,7 @@
 #define EASY_TAG_L_CMD                                  "command"
 #define EASY_TAG_VALUE									"Value"
 #define EASY_TAG_IP										"IP"
+#define EASY_TAG_L_IP									"ip"
 #define EASY_TAG_LIVE_TYPE								"LiveType"
 #define EASY_TAG_USER_PLAY_COUNT						"UserPlayCount"
 #define EASY_TAG_PROXY_PLAY_COUNT						"ProxyPlayCount"
@@ -119,13 +126,117 @@
 #define EASY_TAG_PLAY_COUNT								"PlayCount"
 #define EASY_TAG_SESSION_COUNT							"SessionCount"
 #define EASY_TAG_RECORDS								"Records"
-#define EASY_TAG_AUDIENCE_NUM							"AudienceNum"
+#define	EASY_TAG_NUM_OUTPUTS							"NumOutputs"
 #define EASY_TAG_ACTION_TYPE                            "ActionType"
 #define EASY_TAG_L_ACTION_TYPE                          "actiontype"
 #define EASY_TAG_SPEED                                  "Speed"
 #define EASY_TAG_L_SPEED                                "speed"
 #define EASY_TAG_PRESET									"Preset"
 #define EASY_TAG_L_PRESET								"preset"
+#define EASY_TAG_AUDIO_TYPE								"AudioType"
+#define EASY_TAG_AUDIO_DATA								"AudioData"
+#define EASY_TAG_PTS									"Pts"
+#define EASY_TAG_LINE									"Line"
+#define	EASY_TAG_L_LINE									"line"
+
+#define EASY_TAG_SERVER_HEADER							"Server"
+#define EASY_TAG_SERVER_RUNNING_TIME					"RunningTime"
+#define EASY_TAG_SERVER_HARDWARE						"Hardware"
+#define EASY_TAG_SERVER_INTERFACE_VERSION				"InterfaceVersion"
+
+#define EASY_TAG_SERVICE								"Service"
+
+#define EASY_TAG_CONFIG_SERVICE_LAN_PORT				"ServiceLanPort"
+#define EASY_TAG_CONFIG_SERVICE_L_LAN_PORT				"servicelanport"
+
+#define EASY_TAG_CONFIG_SERVICE_WAN_PORT				"ServiceWanPort"
+#define EASY_TAG_CONFIG_SERVICE_L_WAN_PORT				"servicewanport"
+
+#define EASY_TAG_CONFIG_SERVICE_LAN_IP					"ServiceLanIP"
+#define EASY_TAG_CONFIG_SERVICE_L_LAN_IP				"servicelanip"
+
+#define EASY_TAG_CONFIG_SERVICE_WAN_IP					"ServiceWanIP"
+#define EASY_TAG_CONFIG_SERVICE_L_WAN_IP				"servicewanip"
+
+#define EASY_TAG_CONFIG_SNAP_LOCAL_PATH					"SnapLocalPath"
+#define EASY_TAG_CONFIG_SNAP_WEB_PATH					"SnapWebPath"
+
+#define EASY_TAG_CONFIG_RTSP_LAN_PORT					"RTSPLanPort"
+#define	EASY_TAG_CONFIG_RTSP_WAN_PORT					"RTSPWanPort"
+
+#define EASY_TAG_CONFIG_RTMP_LAN_PORT					"RTMPLanPort"
+#define EASY_TAG_CONFIG_RTMP_WAN_PORT					"RTMPWanPort"
+
+#define EASY_TAG_CONFIG_CHANNEL_SNAP_INTERVAL			"ChannelSnapInterval"
+#define EASY_TAG_CONFIG_CHANNEL_L_SNAP_INTERVAL			"channelsnapinterval"
+
+#define EASY_TAG_CONFIG_NGINX_ROOT_FOLDER				"NginxRootFolder"
+#define EASY_TAG_CONFIG_NGINX_L_ROOT_FOLDER				"nginxrootfolder"
+
+#define EASY_TAG_CONFIG_NGINX_WEB_PATH					"NginxWebPath"
+#define EASY_TAG_CONFIG_NGINX_L_WEB_PATH				"nginxwebpath"
+
+#define EASY_TAG_CONFIG_NGINX_RTMP_PATH					"NginxRTMPPath"
+#define EASY_TAG_CONFIG_NGINX_L_RTMP_PATH				"nginxrtmppath"
+
+#define EASY_TAG_CONFIG_RTMP_SERVER						"RTMPServer"
+#define EASY_TAG_CONFIG_L_RTMP_SERVER					"rtmpserver"
+
+#define EASY_TAG_THRID_PART_PLATFORM_NAME				"ThridPlatform"
+#define EASY_TAG_L_THRID_PART_PLATFORM_NAME				"thridplatform"
+#define	EASY_TAG_THRID_PART_PLATFORM_IP					"ThridPlatformIP"
+#define	EASY_TAG_L_THRID_PART_PLATFORM_IP				"thridplatformip"
+#define	EASY_TAG_THRID_PART_PLATFORM_PORT				"ThridPlatformPort"
+#define	EASY_TAG_L_THRID_PART_PLATFORM_PORT				"thridplatformport"
+#define	EASY_TAG_THRID_PART_PLATFORM_UID				"ThridPlatformUID"
+#define	EASY_TAG_L_THRID_PART_PLATFORM_UID				"thridplatformuid"
+#define EASY_TAG_THRID_PART_PLATFORM_TOKEN				"ThridPlatformToken"
+#define EASY_TAG_L_THRID_PART_PLATFORM_TOKEN			"thridplatformtoken"
+#define	EASY_TAG_THRID_PART_PLATFORM_CUSTOMIZE			"ThridPlatformCustomize"
+#define	EASY_TAG_L_THRID_PART_PLATFORM_CUSTOMIZE		"thridplatformcustomize"
+#define	EASY_TAG_THRID_PART_PLATFORM_ALIVE_INTERVAL		"ThridPlatformAliveInterval"
+#define	EASY_TAG_L_THRID_PART_PLATFORM_ALIVE_INTERVAL	"thridplatformaliveinterval"
+
+#define EASY_TAG_ID										"Id"
+#define EASY_TAG_ENABLE									"Enable"
+#define EASY_TAG_L_ENABLE								"enable"
+#define EASY_TAG_ONLINE									"Online"
+#define EASY_TAG_RTSP									"RTSP"
+#define EASY_TAG_L_RTSP									"rtsp"
+#define EASY_TAG_ONVIF									"ONVIF"
+#define EASY_TAG_L_ONVIF								"onvif"
+#define EASY_TAG_CDN									"CDN"
+#define EASY_TAG_L_CDN									"cdn"
+
+#define EASY_TAG_L_OLD_PASSWORD							"oldpassword"
+#define EASY_TAG_L_NEW_PASSWORD							"newpassword"
+
+#define EASY_TAG_DATE									"Date"
+#define EASY_TAG_L_DATE									"date"
+#define EASY_TAG_DATE_TIME								"DateTime"
+#define EASY_TAG_L_DATE_TIME							"datetime"
+#define EASY_TAG_START_TIME								"StartTime"
+#define EASY_TAG_L_START_TIME							"starttime"
+#define EASY_TAG_END_TIME								"EndTime"
+#define EASY_TAG_L_END_TIME								"endtime"
+
+#define EASY_TAG_PATH									"Path"
+#define EASY_TAG_L_PATH									"path"
+#define EASY_TAG_TOTAL_SIZE								"TotalSize"
+#define EASY_TAG_AVAILABLE_SIZE							"AvailableSize"
+#define EASY_TAG_FREE_SIZE								"FreeSize"
+#define EASY_TAG_PATHS									"Paths"
+#define EASY_TAG_USED									"Used"
+
+#define EASY_TAG_API									"API"
+#define EASY_TAG_ACTION									"Action"
+#define EASY_TAG_PARAMETER								"Parameter"
+#define EASY_TAG_EXAMPLE								"Example"
+#define EASY_TAG_DESCRIPTION							"Description"
+#define EASY_TAG_HTTP_METHOD							"Method"
+#define EASY_TAG_HTTP_GET								"GET"
+#define EASY_TAG_HTTP_POST								"POST"
+#define EASY_TAG_IS_READY								"IsReady"
 
 /*!
 \}
@@ -136,23 +247,23 @@
 \ingroup EasyDarwin_Message_Type_Define
 \{
 */
-#define MSG_DS_REGISTER_REQ									0x0001//设备注册
+#define MSG_DS_REGISTER_REQ									0x0001
 #define MSG_SD_REGISTER_ACK									0xe001
-#define MSG_SD_PUSH_STREAM_REQ								0x0002//EasyCMS请求设备开始推流
+#define MSG_SD_PUSH_STREAM_REQ								0x0002
 #define MSG_DS_PUSH_STREAM_ACK								0xe002
-#define MSG_SD_STREAM_STOP_REQ								0x0003//EasyCMS请求设备停止推流
+#define MSG_SD_STREAM_STOP_REQ								0x0003
 #define MSG_DS_STREAM_STOP_ACK								0xe003
-#define MSG_CS_DEVICE_LIST_REQ								0x0004//EasyClient向EasyCMS请求设备列表
+#define MSG_CS_DEVICE_LIST_REQ								0x0004
 #define MSG_SC_DEVICE_LIST_ACK								0xe004
-#define MSG_CS_CAMERA_LIST_REQ								0x0005//EasyClient向EasyCMS请求摄像机列表
+#define MSG_CS_CAMERA_LIST_REQ								0x0005
 #define MSG_SC_CAMERA_LIST_ACK								0xe005
-#define MSG_CS_GET_STREAM_REQ								0x0006//EasyClient向EasyCMS请求流
+#define MSG_CS_GET_STREAM_REQ								0x0006
 #define MSG_SC_GET_STREAM_ACK								0xe006
-#define MSG_CS_FREE_STREAM_REQ								0x0007//EasyClient向EasyCMS请求释放流
+#define MSG_CS_FREE_STREAM_REQ								0x0007
 #define MSG_SC_FREE_STREAM_ACK								0xe007
-#define MSG_DS_POST_SNAP_REQ								0x0008//设备向EasyCMS上传快照
+#define MSG_DS_POST_SNAP_REQ								0x0008
 #define MSG_SD_POST_SNAP_ACK								0xe008
-#define MSG_CS_DEVICE_INFO_REQ								0x0009//EasyClient向EasyCMS请求设备信息
+#define MSG_CS_DEVICE_INFO_REQ								0x0009
 #define MSG_SC_DEVICE_INFO_ACK								0xe009
 
 #define MSG_CS_PTZ_CONTROL_REQ                              0x000a
@@ -165,10 +276,52 @@
 #define MSG_SD_CONTROL_PRESET_REQ                           0x000d
 #define MSG_DS_CONTROL_PRESET_ACK                           0xe00d
 
+#define MSG_CS_TALKBACK_CONTROL_REQ							0x000e
+#define MSG_SC_TALKBACK_CONTROL_ACK							0xe00e
+#define MSG_SD_CONTROL_TALKBACK_REQ							0x000f
+#define MSG_DS_CONTROL_TALKBACK_ACK							0xe00f
+
+#define	MSG_SC_SERVER_INFO_ACK								0x1000
+#define MSG_SC_SERVER_BASE_CONFIG_ACK						0x1001
+#define MSG_SC_SERVER_SET_BASE_CONFIG_ACK					0x1002
+#define MSG_SC_SERVER_GET_THRID_PART_PLATFORM_ACK			0x1003
+#define	MSG_SC_SERVER_SET_THRID_PART_PLATFORM_ACK			0x1004
+#define MSG_SC_SERVER_GET_CHANNELS_ACK						0x1005
+#define MSG_SC_SERVER_GET_CHANNELS_CONFIG_ACK				0x1006
+#define MSG_SC_SERVER_SET_CHANNEL_CONFIG_ACK				0x1007
+#define MSG_SC_SERVER_GET_CHANNEL_STREAM_ACK				0x1008
+
+#define	MSG_SC_SERVER_LOGIN_ACK								0x1009
+#define MSG_SC_SERVER_LOGOUT_ACK							0x100a
+#define MSG_SC_SERVER_MODIFY_PASSWORD_ACK					0x100b
+
+#define MSG_SC_SERVER_TOUCH_CHANNEL_STREAM_ACK				0x100c
+#define MSG_SC_SERVER_DISCOVER_DEVICES_ACK					0x100d
+#define MSG_SC_SERVER_PROBE_DEVICE_ACK						0x100e
+
+#define MSG_SC_SERVER_GET_RECORD_PATH_LIST_ACK				0x1010
+#define MSG_SC_SERVER_ADD_RECORD_PATH_ACK					0x1011
+#define MSG_SC_SERVER_REMOVE_RECORD_PATH_ACK				0x1012
+
+#define MSG_SC_SERVER_START_RECORD_ACK						0x1013
+#define MSG_SC_SERVER_STOP_RECORD_ACK						0x1014
+
+#define MSG_SC_SERVER_SEARCH_RECORD_ACK						0x1015
+#define MSG_SC_SERVER_PLAY_RECORD_ACK						0x1016
+#define MSG_SC_SERVER_STOP_PLAY_RECORD_ACK					0x1017
+#define MSG_SC_SERVER_SEEK_PLAY_RECORD_ACK					0x1018
+#define MSG_SC_SERVER_TOUCH_PLAY_RECORD_ACK					0x1019
+
+#define MSG_SC_SERVER_USAGES_ACK							0x101a
+
+#define MSG_SC_START_STREAM_ACK								0x101b
+#define MSG_SC_STOP_STREAM_ACK								0x101c
+
 #define MSG_SC_START_HLS_ACK								0xeee0
 #define MSG_SC_HLS_SESSION_LIST_ACK							0xeee1
-#define MSG_SC_RTSP_PUSH_SESSION_LIST_ACK					0xeee2
+#define MSG_SC_RTSP_LIVE_SESSIONS_ACK						0xeee2
 #define MSG_SC_LIST_RECORD_ACK								0xeee3
+#define MSG_SC_RTSP_RECORD_SESSION_LIST_ACK					0xeee4
 #define MSG_SC_EXCEPTION									0xeeee
 
 /*!
@@ -230,10 +383,10 @@
 */
 enum EasyDarwinTimeFormat
 {
-    EASY_TIME_FORMAT_YYYYMMDDHHMMSS = 1,    ///< Format like 2014-08-31 08:15:30
-	EASY_TIME_FORMAT_YYYYMMDDHHMMSSEx,		///<Format like 20140831081530
-    EASY_TIME_FORMAT_YYYYMMDD,              ///< Format like 2014-08-31
-    EASY_TIME_FORMAT_HHMMSS                 ///< Format like 08:15:30    
+	EASY_TIME_FORMAT_YYYYMMDDHHMMSS = 1,    ///< Format like 2014-08-31 08:15:30
+	EASY_TIME_FORMAT_YYYYMMDDHHMMSSEx,		///< Format like 20140831081530
+	EASY_TIME_FORMAT_YYYYMMDD,              ///< Format like 2014-08-31
+	EASY_TIME_FORMAT_HHMMSS                 ///< Format like 08:15:30    
 };
 /*!
 \}
@@ -284,12 +437,12 @@ enum EasyDarwinMediaEncodeType
 */
 enum EasyDarwinTerminalType
 {
-	EASY_TERMINAL_TYPE_ARM		= 1,				///< ARM	
-	EASY_TERMINAL_TYPE_Android	= 2,				///< ANDROID
-	EASY_TERMINAL_TYPE_IOS		= 3,				///< IOS
-	EASY_TERMINAL_TYPE_WEB		= 4,				///< WEB
-	EASY_TERMINAL_TYPE_WINDOWS  = 5,				///< WINDOWS
-	EASY_TERMINAL_TYPE_LINUX	= 6					///< LINUX
+	EASY_TERMINAL_TYPE_ARM = 1,				///< ARM	
+	EASY_TERMINAL_TYPE_Android = 2,				///< ANDROID
+	EASY_TERMINAL_TYPE_IOS = 3,				///< IOS
+	EASY_TERMINAL_TYPE_WEB = 4,				///< WEB
+	EASY_TERMINAL_TYPE_WINDOWS = 5,				///< WINDOWS
+	EASY_TERMINAL_TYPE_LINUX = 6					///< LINUX
 };
 /*!
 \}
@@ -301,9 +454,9 @@ enum EasyDarwinTerminalType
 */
 enum EasyDarwinAppType
 {
-	EASY_APP_TYPE_CAMERA		= 1,					///< EasyCamera
-	EASY_APP_TYPE_NVR			= 2,					///< EasyNVR
-	EASY_APP_TYPE_EASYDARWIN	= 3						///< EasyDarwin
+	EASY_APP_TYPE_CAMERA = 1,					///< EasyCamera
+	EASY_APP_TYPE_NVR = 2,					///< EasyNVR
+	EASY_APP_TYPE_EASYDARWIN = 3						///< EasyDarwin
 };
 /*!
 \}
@@ -328,8 +481,8 @@ enum EasyDarwinSnapType
 */
 enum EasyDarwinPTZActionType
 {
-    EASY_PTZ_ACTION_TYPE_CONTINUOUS = 1,				///< CONTINUOUS
-    EASY_PTZ_ACTION_TYPE_SINGLE 						///< SINGLE
+	EASY_PTZ_ACTION_TYPE_CONTINUOUS = 1,				///< CONTINUOUS
+	EASY_PTZ_ACTION_TYPE_SINGLE 						///< SINGLE
 };
 /*!
 \}
@@ -341,21 +494,21 @@ enum EasyDarwinPTZActionType
 */
 enum EasyDarwinPTZCMDType
 {
-    EASY_PTZ_CMD_TYPE_STOP = 1,				    ///< STOP
-    EASY_PTZ_CMD_TYPE_UP, 						///< UP
-    EASY_PTZ_CMD_TYPE_DOWN, 					///< DOWN
-    EASY_PTZ_CMD_TYPE_LEFT, 					///< LEFT
-    EASY_PTZ_CMD_TYPE_RIGHT, 					///< RIGHT
-    EASY_PTZ_CMD_TYPE_LEFTUP, 					///< LEFTUP
-    EASY_PTZ_CMD_TYPE_LEFTDOWN, 				///< LEFTDOWN
-    EASY_PTZ_CMD_TYPE_RIGHTUP, 					///< RIGHTUP
-    EASY_PTZ_CMD_TYPE_RIGHTDOWN, 				///< RIGHTDOWN
-    EASY_PTZ_CMD_TYPE_ZOOMIN, 					///< ZOOMIN
-    EASY_PTZ_CMD_TYPE_ZOOMOUT, 					///< ZOOMOUT
-    EASY_PTZ_CMD_TYPE_FOCUSIN, 					///< FOCUSIN
-    EASY_PTZ_CMD_TYPE_FOCUSOUT, 				///< FOCUSOUT
-    EASY_PTZ_CMD_TYPE_APERTUREIN, 				///< APERTUREIN
-    EASY_PTZ_CMD_TYPE_APERTUREOUT, 				///< APERTUREOUT
+	EASY_PTZ_CMD_TYPE_STOP = 1,				    ///< STOP
+	EASY_PTZ_CMD_TYPE_UP, 						///< UP
+	EASY_PTZ_CMD_TYPE_DOWN, 					///< DOWN
+	EASY_PTZ_CMD_TYPE_LEFT, 					///< LEFT
+	EASY_PTZ_CMD_TYPE_RIGHT, 					///< RIGHT
+	EASY_PTZ_CMD_TYPE_LEFTUP, 					///< LEFTUP
+	EASY_PTZ_CMD_TYPE_LEFTDOWN, 				///< LEFTDOWN
+	EASY_PTZ_CMD_TYPE_RIGHTUP, 					///< RIGHTUP
+	EASY_PTZ_CMD_TYPE_RIGHTDOWN, 				///< RIGHTDOWN
+	EASY_PTZ_CMD_TYPE_ZOOMIN, 					///< ZOOMIN
+	EASY_PTZ_CMD_TYPE_ZOOMOUT, 					///< ZOOMOUT
+	EASY_PTZ_CMD_TYPE_FOCUSIN, 					///< FOCUSIN
+	EASY_PTZ_CMD_TYPE_FOCUSOUT, 				///< FOCUSOUT
+	EASY_PTZ_CMD_TYPE_APERTUREIN, 				///< APERTUREIN
+	EASY_PTZ_CMD_TYPE_APERTUREOUT, 				///< APERTUREOUT
 };
 /*!
 \}
@@ -375,5 +528,35 @@ enum EasyDarwinPresetCMDType
 /*!
 \}
 */
-    
+
+/*!
+\ingroup EasyDarwin_Talkback_Audio_Type_Define
+\{
+*/
+enum EasyDarwinTalkbackAudioType
+{
+	EASY_TALKBACK_AUDIO_TYPE_G711A = 1,				///< G711A
+	EASY_TALKBACK_AUDIO_TYPE_G711U, 				///< G711U
+	EASY_TALKBACK_AUDIO_TYPE_G726, 					///< G726
+
+};
+/*!
+\}
+*/
+
+/*!
+\ingroup EasyDarwin_Talkback_CMD_Type_Define
+\{
+*/
+enum EasyDarwinTalkbackCMDType
+{
+	EASY_TALKBACK_CMD_TYPE_START = 1,				///< START
+	EASY_TALKBACK_CMD_TYPE_SENDDATA, 				///< SENDDATA
+	EASY_TALKBACK_CMD_TYPE_STOP, 					///< STOP
+
+};
+/*!
+\}
+*/
+
 #endif	/* EASY_PROTOCOL_DEF_H */

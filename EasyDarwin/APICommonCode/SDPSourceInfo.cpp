@@ -34,7 +34,6 @@
 
 #include "StringParser.h"
 #include "StringFormatter.h"
-#include "OSMemory.h"
 #include "SocketUtils.h"
 #include "StrPtrLen.h"
 #include "SDPUtils.h"
@@ -71,10 +70,10 @@ char* SDPSourceInfo::GetLocalSDP(UInt32* newSDPLen)
 {
     Assert(fSDPData.Ptr != NULL);
 
-    Bool16 appendCLine = true;
+    bool appendCLine = true;
     UInt32 trackIndex = 0;
     
-    char *localSDP = NEW char[fSDPData.Len * 2];
+    char *localSDP = new char[fSDPData.Len * 2];
     OSCharArrayDeleter charArrayPathDeleter(localSDP);
     StringFormatter localSDPFormatter(localSDP, fSDPData.Len * 2);
 
@@ -85,7 +84,7 @@ char* SDPSourceInfo::GetLocalSDP(UInt32* newSDPLen)
     // Only generate our own trackIDs if this file doesn't have 'em.
     // Our assumption here is that either the file has them, or it doesn't.
     // A file with some trackIDs, and some not, won't work.
-    Bool16 hasControlLine = false;
+    bool hasControlLine = false;
 
     while (sdpParser.GetDataRemaining() > 0)
     {
@@ -193,7 +192,7 @@ void SDPSourceInfo::Parse(char* sdpData, UInt32 sdpLen)
         
     Assert(fStreamArray == NULL);
     
-    char *sdpDataCopy = NEW char[sdpLen];
+    char *sdpDataCopy = new char[sdpLen];
     Assert(sdpDataCopy != NULL);
     
     memcpy(sdpDataCopy,sdpData, sdpLen);
@@ -203,7 +202,7 @@ void SDPSourceInfo::Parse(char* sdpData, UInt32 sdpLen)
     // at 1 -> N
     UInt32 currentTrack = 1;
     
-    Bool16 hasGlobalStreamInfo = false;
+    bool hasGlobalStreamInfo = false;
     StreamInfo theGlobalStreamInfo; //needed if there is one c= header independent of
                                     //individual streams
 
@@ -225,7 +224,7 @@ void SDPSourceInfo::Parse(char* sdpData, UInt32 sdpLen)
     //We should scale the # of StreamInfos to the # of trax, but we can't because
     //of an annoying compiler bug...
     
-    fStreamArray = NEW StreamInfo[fNumStreams];
+    fStreamArray = new StreamInfo[fNumStreams];
 	::memset(fStreamArray, 0, sizeof(StreamInfo) * fNumStreams);
 
     // set the default destination as our default IP address and set the default ttl

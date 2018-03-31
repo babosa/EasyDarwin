@@ -37,7 +37,7 @@
     #define FALSE 0
 #endif
 
-
+#define FD_SETSIZE 1024
 
 /* Platform-specific components */
 #if __MacOSX__
@@ -218,8 +218,8 @@
 
     /* paths */
     #define kEOLString "\r\n"
-    #define kPathDelimiterString "\\"
-    #define kPathDelimiterChar '\\'
+    #define kPathDelimiterString "/"
+    #define kPathDelimiterChar '/'
     #define kPartialPathBeginsWithDelimiter 0
     
     #define crypt(buf, salt) ((char*)buf)

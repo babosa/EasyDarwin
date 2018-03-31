@@ -4,42 +4,18 @@
 	WEChat: EasyDarwin
 	Website: http://www.EasyDarwin.org
 */
-/*!
-  \file    HTTPSession.h
-  \author  Babosa@EasyDarwin.org
-  \date    2014-12-03
-  \version 1.0
-  \mainpage 使用引导
-
-  网络调用主要流程\n
-  Select -> ServiceSession -> DispatchMsgCenter -> ServiceSession -> Cleanup\n\n
-
-  Copyright (c) 2014 EasyDarwin.org 版权所有\n
-
-  \defgroup 服务单元网络事件处理流程
-*/
 
 #ifndef __HTTP_SESSION_H__
 #define __HTTP_SESSION_H__
 
 #include "HTTPSessionInterface.h"
+
 #include "HTTPRequest.h"
 #include "TimeoutTask.h"
 #include "QTSSModule.h"
-#include "DecoderHelper.h"
+#include "OSQueue.h"
 
 using namespace std;
-
-typedef struct __DECODE_PARAM_T
-{
-	int				codec;
-	int				width;
-	int				height;
-	int				gopTally;
-	char*			imageData;
-	unsigned int	imageSize;
-
-} DECODE_PARAM_T;
 
 class HTTPSession : public HTTPSessionInterface
 {
@@ -47,53 +23,61 @@ public:
 	HTTPSession();
 	virtual ~HTTPSession();
 
-	QTSS_Error SendHTTPPacket(StrPtrLen* contentXML, Bool16 connectionClose, Bool16 decrement);
+	QTSS_Error SendHTTPPacket(const string& msg, bool connectionClose, bool decrement);
 
-	char* GetDeviceSnap() { return fDeviceSnap; };
-	char* GetDeviceSerial() { return (char*)fDevSerial.c_str(); };
+	string GetTalkbackSession() const { return talkbackSession; }
+	void SetTalkbackSession(const string& session) { talkbackSession = session; }
 
-	void SetStreamPushInfo(EasyJsonValue &info) { fStreamPushInfo = info; }
-	EasyJsonValue &GetStreamPushInfo() { return fStreamPushInfo; }
+	string GetDarwinHTTPPort() const { return darwinHttpPort_; }
 
 private:
-	SInt64 Run();
+	SInt64 Run() override;
 
 	// Does request prep & request cleanup, respectively
-	QTSS_Error SetupRequest();
-	void CleanupRequest();
+	QTSS_Error setupRequest();
+	void cleanupRequest();
+	bool isRightChannel(const char* channel) const;
 
-	QTSS_Error ProcessRequest();//处理请求，单独放到一个状态中去处理，这样方便重复执行
-	QTSS_Error ExecNetMsgErrorReqHandler(HTTPStatusCode errCode);//消息默认处理函数
-	QTSS_Error ExecNetMsgDSRegisterReq(const char* json);//设备注册请求
-	QTSS_Error ExecNetMsgCSGetStreamReq(const char* json);//客户端拉流请求
-	QTSS_Error ExecNetMsgDSPushStreamAck(const char* json);//设备的开始流回应
-	QTSS_Error ExecNetMsgCSFreeStreamReq(const char *json);//客户端的停止直播请求
-	QTSS_Error ExecNetMsgDSStreamStopAck(const char* json);//设备的停止推流回应
-	QTSS_Error ExecNetMsgDSPostSnapReq(const char* json);//设备的快照更新请求
-    QTSS_Error ExecNetMsgCSPTZControlReq(const char* json);
-    QTSS_Error ExecNetMsgDSPTZControlAck(const char* json);
-	QTSS_Error ExecNetMsgCSPresetControlReq(const char* json);
-	QTSS_Error ExecNetMsgDSPresetControlAck(const char* json);
+	QTSS_Error processRequest();
+	QTSS_Error execNetMsgErrorReqHandler(HTTPStatusCode errCode);
+	QTSS_Error execNetMsgDSRegisterReq(const char* json);
+	QTSS_Error execNetMsgDSPushStreamAck(const char* json) const;
+	QTSS_Error execNetMsgCSFreeStreamReq(const char *json);
+	QTSS_Error execNetMsgDSStreamStopAck(const char* json) const;
+	QTSS_Error execNetMsgDSPostSnapReq(const char* json);
+	static QTSS_Error execNetMsgDSPTZControlAck(const char* json);
+	QTSS_Error execNetMsgDSPresetControlAck(const char* json) const;
 
-	QTSS_Error ExecNetMsgCSDeviceListReq(const char* json);//客户端获得设备列表，json接口
-	QTSS_Error ExecNetMsgCSCameraListReq(const char* json);//客户端获得摄像头列表，json接口,仅对设备类型为NVR时有效
+	QTSS_Error execNetMsgCSTalkbackControlReq(const char* json);
+	static QTSS_Error execNetMSGDSTalkbackControlAck(const char* json);
 
-	QTSS_Error ExecNetMsgCSGetStreamReqRESTful(const char* queryString);//客户端拉流请求，Restful接口		
-	QTSS_Error ExecNetMsgCSGetDeviceListReqRESTful(const char* queryString);//客户端获得设备列表,restful接口
-	QTSS_Error ExecNetMsgCSGetCameraListReqRESTful(const char* queryString);//客户端获得摄像头列表，restful接口，仅对设备类型为NVR时有效
-    QTSS_Error ExecNetMsgCSPTZControlReqRESTful(const char* queryString);
-	QTSS_Error ExecNetMsgCSPresetControlReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSDeviceListReq(const char* json);
+	QTSS_Error execNetMsgCSCameraListReq(const char* json);
 
-	QTSS_Error DumpRequestData();//清空请求报文
+	QTSS_Error execNetMsgCSStartStreamReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSStopStreamReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSGetDeviceListReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSGetCameraListReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSPTZControlReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSPresetControlReqRESTful(const char* queryString);
+
+	QTSS_Error execNetMsgCSGetBaseConfigReqRESTful(const char* queryString);
+	QTSS_Error execNetMsgCSSetBaseConfigReqRESTful(const char* queryString);
+
+	static QTSS_Error execNetMsgCSRestartReqRESTful(const char* queryString);
+
+	QTSS_Error execNetMsgCSGetUsagesReqRESTful(const char* queryString);
+
+	QTSS_Error dumpRequestData();
 
 	// test current connections handled by this object against server pref connection limit
-	static Bool16 OverMaxConnections(UInt32 buffer);
+	static bool overMaxConnections(UInt32 buffer);
 
-	QTSS_Error rawData2Image(char* rawBuf, int bufSize, int codec, int width, int height);
-	int	yuv2BMPImage(unsigned int width, unsigned int height, char* yuvpbuf, unsigned int* rgbsize, unsigned char* rgbdata);
+	void addDevice() const;
 
-	HTTPRequest*        fRequest;
-	OSMutex             fReadMutex;
+	HTTPRequest* fRequest;
+	OSMutex fReadMutex;
+	OSMutex fSendMutex;
 
 	enum
 	{
@@ -108,21 +92,17 @@ private:
 		kHaveCompleteMessage = 7	// 读取到完整的报文
 	};
 
-	UInt32 fCurrentModule;
+	//UInt32 fCurrentModule;
 	UInt32 fState;
 
-	QTSS_RoleParams     fRoleParams;//module param blocks for roles.
+	//QTSS_RoleParams     fRoleParams;//module param blocks for roles.
 	QTSS_ModuleState    fModuleState;
 
-	char* fDeviceSnap;
-	EasyJsonValue fStreamPushInfo;
+	string talkbackSession;
 
-	// Channel Snap
-	DECODE_PARAM_T		decodeParam;
-#ifndef __linux__
-	DecoderHelper		decoderHelper;
-#endif
+	string darwinHttpPort_;
 
 };
+
 #endif // __HTTP_SESSION_H__
 

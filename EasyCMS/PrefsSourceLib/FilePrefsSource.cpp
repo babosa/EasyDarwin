@@ -43,7 +43,6 @@
 #include <errno.h>
 
 #include "MyAssert.h"
-#include "OSMemory.h"
 #include "ConfParser.h"
 
 const int kMaxLineLen = 2048;
@@ -74,9 +73,9 @@ KeyValuePair::KeyValuePair(const char* inKey, const char* inValue, KeyValuePair*
     fValue(NULL),
     fNext(NULL)
 {
-    fKey = NEW char[::strlen(inKey)+1];
+    fKey = new char[::strlen(inKey)+1];
     ::strcpy(fKey, inKey);
-    fValue = NEW char[::strlen(inValue)+1];
+    fValue = new char[::strlen(inValue)+1];
     ::strcpy(fValue, inValue);
     fNext = inNext;
 }
@@ -92,12 +91,12 @@ KeyValuePair::~KeyValuePair()
 void KeyValuePair::ResetValue(const char* inValue)
 {
     delete [] fValue;
-    fValue = NEW char[::strlen(inValue)+1];
+    fValue = new char[::strlen(inValue)+1];
     ::strcpy(fValue, inValue);
 }
 
 
-FilePrefsSource::FilePrefsSource( Bool16 allowDuplicates)
+FilePrefsSource::FilePrefsSource( bool allowDuplicates)
 :   fKeyValueList(NULL),
     fNumKeys(0),
     fAllowDuplicates(allowDuplicates)
@@ -203,14 +202,14 @@ void FilePrefsSource::SetValue(const char* inKey, const char* inValue)
     }
     else
     {
-        fKeyValueList  = NEW KeyValuePair(inKey, inValue, fKeyValueList);
+        fKeyValueList  = new KeyValuePair(inKey, inValue, fKeyValueList);
         fNumKeys++;
     }
 }
 
 
 
-Bool16 FilePrefsSource::FilePrefsConfigSetter( const char* paramName, const char* paramValue[], void* userData )
+bool FilePrefsSource::FilePrefsConfigSetter( const char* paramName, const char* paramValue[], void* userData )
 {
 /*
     static callback routine for ParseConfigFile
@@ -350,12 +349,11 @@ void FilePrefsSource::DeleteValue(const char* inKey)
 
 void FilePrefsSource::WriteToConfigFile(const char* configFilePath)
 {
-    int err = 0;
     FILE* fileDesc = ::fopen( configFilePath,   "w");
 
         if (fileDesc != NULL)
         {
-            err = ::fseek(fileDesc, 0, SEEK_END);
+            int err = ::fseek(fileDesc, 0, SEEK_END);
             Assert(err == 0);
 
             KeyValuePair* keyValue = fKeyValueList;
